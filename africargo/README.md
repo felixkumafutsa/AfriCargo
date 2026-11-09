@@ -77,9 +77,23 @@ share a membership. Without these fixtures that integration test is skipped.
 Open http://localhost:3000 for the landing page. Register, verify your email,
 and create a workspace to open the protected dashboard.
 
-## Deploying (when ready)
+## Vercel deployments
 
-1. Push this folder to a GitHub repo
-2. Import the repo on [Vercel](https://vercel.com) (free tier is fine to start)
-3. Add the public Supabase URL/key, server-only database credentials, and
-   server-only Supabase service-role key to Vercel's project settings
+The `felixkumafutsa/AfriCargo` GitHub repository is connected to the Vercel
+`africargo` project. Vercel uses `africargo/` as the project root and
+`npm run build` as the build command:
+
+- Pushes and pull requests create Preview deployments.
+- Merges or pushes to `main` create Production deployments.
+
+The public Supabase URL and publishable key are configured for Production,
+Preview, and Development. Before enabling authenticated workspace and
+invitation features in a deployed environment, add these server-only
+environment variables in Vercel Project Settings → Environment Variables:
+
+- `AFRICARGO_DATABASE_URL`: connection string for the restricted
+  `africargo_runtime` database role.
+- `SUPABASE_SERVICE_ROLE_KEY`: only required for sending team invitations.
+
+Do not add the privileged migration-only `DATABASE_URL` to Vercel runtime
+environments. Redeploy after changing environment variables.
